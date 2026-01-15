@@ -1,114 +1,185 @@
-# NormiCyte - Your Cyber Guardian 🛡️
+# NormiCyte 🛡️
+### let's normalise cyber.
 
-A comprehensive cyber awareness platform designed to help users in India stay safe online through interactive learning, phishing simulations, and AI-powered guidance.
+> **🔗 Live Demo: [normicyte.web.app](https://normicyte.web.app)**
 
-## Features
+---
 
-- **Digital Detective**: Solve interactive cybersecurity cases to learn threat identification
-- **Phishing Simulator**: Practice identifying fake emails and messages
-- **AI Cyber Mentor**: Get instant guidance on cybersecurity questions
-- **NormiCyte Score**: Track your cyber awareness progress
-- **Bilingual Support**: Available in English and Hindi
+## 🎯 what's this about?
 
-## Tech Stack
+so here's the thing - cybersecurity feels intimidating to most people. like, who has time to learn about phishing when you're drowning in assignments? but then your friend gets scammed on OLX, your mom almost shared her OTP with a fake "bank" caller, and suddenly it hits different.
 
-- **Frontend**: React 18, TypeScript, Vite
-- **Styling**: Tailwind CSS, shadcn/ui
-- **Backend**: Firebase (Authentication, Firestore, Cloud Functions)
-- **State Management**: React Query, React Context
-- **Routing**: React Router v6
+**NormiCyte** is our attempt to make cyber awareness... normal. not scary, not boring - just something you pick up while having fun. think duolingo but for not getting scammed.
 
-## Getting Started
+we built this for a campus hackathon but honestly? this stuff affects everyone - students, parents, that uncle who forwards everything on WhatsApp.
 
-### Prerequisites
+---
 
-- Node.js 18+ (recommended: use [nvm](https://github.com/nvm-sh/nvm))
-- npm or bun
-- Firebase account
+## 💡 the problem we're solving
 
-### Installation
+campus life = online life. we're constantly:
+- paying fees through UPI
+- logging into portals
+- clicking links in "placement" emails
+- sharing stuff on social media
+
+and scammers LOVE targeting students. fake internship offers, UPI collect request scams, phishing emails that look legit... you name it.
+
+**but nobody teaches us this stuff.** cyber hygiene should be as normal as washing hands, right?
+
+---
+
+## ✨ what can you do on NormiCyte?
+
+### 🕵️ Digital Detective
+solve real-world cyber cases. analyze suspicious emails, trace fake profiles, figure out how scams work. it's like being a detective but for the internet.
+
+### 🎣 Phishing Simulator  
+practice spotting fake emails and messages. get it wrong? no worries - better to learn here than lose money irl. you earn XP for every correct catch!
+
+### 🎮 Missions
+bite-sized lessons on UPI safety, password security, social media privacy, etc. complete quizzes, earn XP, level up your cyber skills.
+
+### 📢 Campaigns
+join community challenges like "UPI Safety Week" or "Phishing Awareness Month". learn together, compete on leaderboards.
+
+### 🤖 AI Mentor (coming soon)
+got a suspicious message? not sure if something's a scam? ask our AI buddy - it's like having a cybersecurity friend on speed dial.
+
+### 🌐 Hindi + English
+because cyber safety shouldn't need you to know english. toggle between languages anytime.
+
+---
+
+## 🏗️ project structure
+
+```
+normicyte/
+├── src/
+│   ├── components/
+│   │   ├── assistant/      # AI chat (coming soon)
+│   │   ├── auth/           # login/signup stuff
+│   │   ├── dashboard/      # home screen widgets
+│   │   ├── detective/      # case investigation game
+│   │   ├── landing/        # the cool landing page
+│   │   ├── phishing/       # phishing practice simulator
+│   │   ├── profile/        # user profile setup
+│   │   └── ui/             # reusable UI components
+│   │
+│   ├── contexts/           # app-wide state (auth, language)
+│   ├── firebase/           # database & auth config
+│   ├── hooks/              # custom react hooks
+│   ├── lib/                # helper functions
+│   └── pages/              # main app screens
+│       ├── Dashboard.tsx   # home after login
+│       ├── Detective.tsx   # cyber case solver
+│       ├── Missions.tsx    # learning missions
+│       ├── MissionContent.tsx  # interactive lesson pages
+│       ├── Campaigns.tsx   # community campaigns
+│       ├── Phishing.tsx    # phishing practice
+│       └── Profile.tsx     # user settings
+│
+├── functions/              # firebase cloud functions
+├── scripts/                # database seeding & migration
+├── public/                 # static assets
+└── dist/                   # production build
+```
+
+---
+
+## 🛠️ tech stack
+
+nothing fancy, just stuff that works:
+
+| what | why |
+|------|-----|
+| React + TypeScript | because type safety saves headaches |
+| Vite | fast builds, instant hot reload |
+| Tailwind CSS | utility-first styling (no more CSS files everywhere) |
+| shadcn/ui | beautiful components out of the box |
+| Firebase | auth, database, hosting - all in one place |
+| React Router | navigation between pages |
+
+---
+
+## 🚀 wanna run it locally?
+
+### you'll need:
+- Node.js 18+ 
+- npm
+- a Firebase project (free tier works)
+
+### setup:
 
 ```bash
-# Clone the repository
-git clone <your-repo-url>
-cd normicyte-your-cyber-guardian
+# clone it
+git clone https://github.com/urvipandeyin/normicyte.git
+cd normicyte
 
-# Install dependencies
+# install stuff
 npm install
 
-# Set up environment variables
-cp .env.example .env
-# Edit .env with your Firebase configuration
+# create .env file with your firebase config
+# (check .env.example for format)
 
-# Start development server
+# run it
 npm run dev
 ```
 
-### Environment Variables
+boom, open `http://localhost:8080` and you're in.
 
-Create a `.env` file with the following variables:
-
-```env
-VITE_FIREBASE_API_KEY=your-api-key
-VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your-project-id
-VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
-VITE_FIREBASE_APP_ID=your-app-id
-```
-
-## Project Structure
-
-```
-src/
-├── components/     # React components
-│   ├── assistant/  # AI chat assistant
-│   ├── auth/       # Authentication components
-│   ├── dashboard/  # Dashboard widgets
-│   ├── detective/  # Digital detective game
-│   ├── landing/    # Landing page components
-│   ├── phishing/   # Phishing simulator
-│   └── ui/         # shadcn/ui components
-├── contexts/       # React contexts (Auth, Language)
-├── hooks/          # Custom React hooks
-├── lib/            # Utility functions
-├── pages/          # Page components
-└── firebase/       # Firebase configuration
-```
-
-## Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-
-## Deployment
-
-### Firebase Hosting
-
+### seed the database (optional):
 ```bash
-# Install Firebase CLI
-npm install -g firebase-tools
+node scripts/seedMissionsCampaigns.cjs
+```
+this adds sample missions, campaigns, and security tips.
 
-# Login to Firebase
-firebase login
+---
 
-# Initialize Firebase (select Hosting)
-firebase init
+## 📦 scripts
 
-# Deploy
-firebase deploy
+| command | what it does |
+|---------|--------------|
+| `npm run dev` | starts dev server |
+| `npm run build` | builds for production |
+| `npm run preview` | preview the build locally |
+| `firebase deploy` | ship it to the internet |
+
+---
+
+## 🎪 deployment
+
+we're live on Firebase Hosting:
+
+**🔗 [normicyte.web.app](https://normicyte.web.app)**
+
+to deploy your own:
+```bash
+npm run build
+firebase deploy --only hosting
 ```
 
-## Contributing
+---
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## 🤝 team
 
-## License
+built with ☕ and sleep deprivation for [Your Hackathon Name]
 
-This project is licensed under the MIT License.
+---
 
-## Support
+## 📞 for actual emergencies
 
-For cybersecurity emergencies in India, contact the Cyber Crime Helpline: **1930**
+if you or someone you know has been scammed:
+
+**🚨 National Cyber Crime Helpline: 1930**  
+**🌐 Report online: [cybercrime.gov.in](https://cybercrime.gov.in)**
+
+---
+
+## 📄 license
+
+MIT - do whatever you want with it, just don't use it to scam people (obviously)
+
+---
+
+*"because getting scammed shouldn't be a rite of passage"* ✌️
