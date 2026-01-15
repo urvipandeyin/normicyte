@@ -1,7 +1,7 @@
 # NormiCyte 
 ### Let's normalise cyber.
 
-> ** Check it out: [normicyte.web.app](https://normicyte.web.app)**
+> **Check it out: [normicyte.web.app](https://normicyte.web.app)**
 
 ---
 
