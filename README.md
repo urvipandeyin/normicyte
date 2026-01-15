@@ -45,8 +45,21 @@ Bite-sized lessons on UPI safety, password security, social media privacy, etc. 
 ### Campaigns
 Join community challenges like "UPI Safety Week" or "Phishing Awareness Month". Learn together and compete on leaderboards.
 
-### AI Mentor (coming soon)
+### AI Mentor (work in progress)
 Got a suspicious message? Not sure if something's a scam? Ask our AI buddy. 
+
+**heads up:** this isn't a full AI model yet. we've manually coded responses for common questions that students and parents usually ask. it's like a smart FAQ that feels like chatting.
+
+**what it can answer right now:**
+- "how to identify fake internship offers?"
+- "linkedin par fake internship kaise pehchane?"
+- "fake placement offer kaise identify kare?"
+- "whatsapp message fake hai ya real kaise pehchane?"
+- "koi number scam hai ya real ye kese jaane?"
+- UPI fraud, phishing, password security, OTP scams
+- paste any SMS and it checks the sender header (like SBIINB, HDFCBK) to verify if it's legit
+
+we plan to integrate actual Gemini AI later, but for now these hardcoded responses cover most real scenarios students and elders face.
 
 ### Hindi + English
 Because cyber safety shouldn't need you to know english. Toggle between languages anytime.
