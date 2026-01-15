@@ -34,18 +34,104 @@ const CHEATING_PATTERNS = [
   /give\s*me.*solution/i, /solution\s*दो/i,
 ];
 
+// Known legitimate SMS sender IDs (headers) in India
+const LEGITIMATE_SMS_HEADERS = {
+  banks: ['SBIINB', 'SBIPSG', 'HABORB', 'HDFCBK', 'ICICIB', 'AXISBK', 'KOTAKB', 'PABORB', 'BOIIND', 'CANBNK', 'UBIONL'],
+  upi: ['ABORPA', 'GPAYUP', 'PYTMUP', 'PHNPUP', 'AMZNPY'],
+  govt: ['ABORMD', 'IRCTCM', 'GOVTIN', 'AABORJ', 'UIDAIA'],
+  telecom: ['ABORVI', 'ABORJR', 'ABORAR', 'BABORL'],
+};
+
+// Check if SMS header is legitimate
+const checkSMSHeader = (content: string): { isLegitimate: boolean; header: string | null; category: string | null } => {
+  // Extract header from SMS (usually in format XX-XXXXXX or XXXXXX at start)
+  const headerMatch = content.match(/^([A-Z]{2}-)?([A-Z]{6})/i);
+  if (!headerMatch) return { isLegitimate: false, header: null, category: null };
+  
+  const header = headerMatch[2]?.toUpperCase();
+  if (!header) return { isLegitimate: false, header: null, category: null };
+  
+  for (const [category, headers] of Object.entries(LEGITIMATE_SMS_HEADERS)) {
+    if (headers.includes(header)) {
+      return { isLegitimate: true, header, category };
+    }
+  }
+  
+  return { isLegitimate: false, header, category: null };
+};
+
 // Local AI response generator for demo
 const generateLocalResponse = (messages: Message[], language: string = 'en'): string => {
   const lastMessage = messages[messages.length - 1]?.content.toLowerCase() || '';
+  const originalMessage = messages[messages.length - 1]?.content || '';
   const isHindi = language === 'hi' || /[\u0900-\u097F]/.test(lastMessage);
   
   // Check for cheating attempts
   for (const pattern of CHEATING_PATTERNS) {
     if (pattern.test(lastMessage)) {
       return isHindi
-        ? "🚫 मैं डिजिटल डिटेक्टिव केस या क्विज़ के जवाब नहीं दे सकता। यह आपकी सीखने की यात्रा है!\n\nलेकिन मैं आपको साइबर सुरक्षा अवधारणाओं को समझने में मदद कर सकता हूं। कोई specific concept पूछें!"
-        : "🚫 I cannot provide answers to Digital Detective cases or quizzes. This is your learning journey!\n\nBut I can help you understand cybersecurity concepts. Ask me about any specific topic!";
+        ? "मैं डिजिटल डिटेक्टिव केस या क्विज़ के जवाब नहीं दे सकता। यह आपकी सीखने की यात्रा है!\n\nलेकिन मैं आपको साइबर सुरक्षा अवधारणाओं को समझने में मदद कर सकता हूं। कोई specific concept पूछें!"
+        : "I cannot provide answers to Digital Detective cases or quizzes. This is your learning journey!\n\nBut I can help you understand cybersecurity concepts. Ask me about any specific topic!";
     }
+  }
+
+  // Check if user shared an SMS for verification
+  const smsHeaderCheck = checkSMSHeader(originalMessage);
+  if (smsHeaderCheck.header || /^[A-Z]{2}-[A-Z]{6}/i.test(originalMessage) || (originalMessage.length > 50 && /dear|customer|account|bank|otp|verify/i.test(originalMessage))) {
+    const headerResult = checkSMSHeader(originalMessage);
+    if (headerResult.header) {
+      if (headerResult.isLegitimate) {
+        return isHindi
+          ? `**SMS Header Analysis**\n\n**Header Found:** ${headerResult.header}\n**Status:** Verified Sender\n**Category:** ${headerResult.category === 'banks' ? 'Bank' : headerResult.category === 'upi' ? 'UPI/Payment' : headerResult.category === 'govt' ? 'Government' : 'Telecom'}\n\nThis SMS header belongs to a registered entity. However, even legitimate headers can be spoofed in rare cases.\n\n**Still verify:**\n- Do not click on shortened links (bit.ly, tinyurl)\n- Never share OTP even if the SMS looks genuine\n- If asking for money or personal details, call your bank directly\n- Check for spelling mistakes in the message body`
+          : `**SMS Header Analysis**\n\n**Header Found:** ${headerResult.header}\n**Status:** Verified Sender\n**Category:** ${headerResult.category === 'banks' ? 'Bank' : headerResult.category === 'upi' ? 'UPI/Payment' : headerResult.category === 'govt' ? 'Government' : 'Telecom'}\n\nThis SMS header belongs to a registered entity. However, even legitimate headers can be spoofed in rare cases.\n\n**Still verify:**\n- Do not click on shortened links (bit.ly, tinyurl)\n- Never share OTP even if the SMS looks genuine\n- If asking for money or personal details, call your bank directly\n- Check for spelling mistakes in the message body`;
+      } else {
+        return isHindi
+          ? `**SMS Header Analysis**\n\n**Header Found:** ${headerResult.header}\n**Status:** Unverified / Unknown Sender\n\nThis header is not in our database of verified senders. This could be:\n- A promotional sender\n- A new/unregistered entity\n- A potential scam attempt\n\n**Red flags to check:**\n- Is it asking for OTP, PIN, or password? (SCAM)\n- Is it creating urgency? (Suspicious)\n- Does it have a shortened link? (Risky)\n- Is it asking you to call a number? (Verify first)\n\n**Recommendation:** Do not respond or click any links. If it claims to be from your bank, visit your bank branch or call the number on your card directly.`
+          : `**SMS Header Analysis**\n\n**Header Found:** ${headerResult.header}\n**Status:** Unverified / Unknown Sender\n\nThis header is not in our database of verified senders. This could be:\n- A promotional sender\n- A new/unregistered entity\n- A potential scam attempt\n\n**Red flags to check:**\n- Is it asking for OTP, PIN, or password? (SCAM)\n- Is it creating urgency? (Suspicious)\n- Does it have a shortened link? (Risky)\n- Is it asking you to call a number? (Verify first)\n\n**Recommendation:** Do not respond or click any links. If it claims to be from your bank, visit your bank branch or call the number on your card directly.`;
+      }
+    }
+  }
+
+  // Fake internship/placement detection - LinkedIn specific
+  if (/fake.*internship.*linkedin|linkedin.*internship.*fake|linkedin.*fake.*offer|identify.*fake.*linkedin/i.test(lastMessage)) {
+    return isHindi
+      ? `**LinkedIn Par Fake Internship Kaise Pehchane**\n\n**Company Profile Check Kare:**\n- Company ka LinkedIn page kitna purana hai\n- Followers kitne hai (kam followers = suspicious)\n- Employees ki profiles verify kare\n- Company ki website check kare\n\n**Recruiter Verification:**\n- Recruiter ka profile check kare (photo, connections, activity)\n- Kya wo actually us company mein kaam karta hai\n- Mutual connections hai kya\n- Profile recent bana hai kya (red flag)\n\n**Job Posting Red Flags:**\n- Salary bahut zyada hai for the role\n- Work from home with high pay without interview\n- Fees maang rahe hai registration ya training ke liye\n- Personal details jaise Aadhaar, bank details maang rahe\n- WhatsApp ya personal email par contact karne ko keh rahe\n\n**Safe Verification Steps:**\n- Company ki official website par jaake careers section check kare\n- Company ke HR ko official email par contact kare\n- Glassdoor aur other review sites check kare\n- College placement cell se verify kare`
+      : `**How to Identify Fake Internships on LinkedIn**\n\n**Verify the Company Profile:**\n- Check how old the company LinkedIn page is\n- Number of followers (very few followers is suspicious)\n- Verify employee profiles listed under the company\n- Check if company has a legitimate website\n\n**Recruiter Verification:**\n- Check recruiter profile (photo, connections, activity history)\n- Verify if they actually work at that company\n- Look for mutual connections\n- Recently created profile is a red flag\n\n**Job Posting Red Flags:**\n- Salary is unusually high for the position\n- Work from home with high pay without proper interview process\n- Asking for registration fee or training fee\n- Requesting personal documents like Aadhaar, PAN, bank details upfront\n- Asking to contact on WhatsApp or personal email\n\n**Safe Verification Steps:**\n- Go to company official website and check careers section\n- Email company HR through official contact\n- Check reviews on Glassdoor and other platforms\n- Verify through your college placement cell if applicable`;
+  }
+
+  // Fake internship detection - General
+  if (/fake.*internship|internship.*fake|identify.*internship|internship.*scam|naukri.*fraud/i.test(lastMessage)) {
+    return isHindi
+      ? `**Fake Internship Offers Kaise Pehchane**\n\n**Pehle Ye Check Kare:**\n- Company actually exist karti hai ya nahi (Google kare)\n- Company ki official website hai ya nahi\n- Registration fee ya security deposit maang rahe hai kya (SCAM hai)\n- Interview process proper hai ya seedha offer de diya\n\n**Red Flags:**\n- WhatsApp ya Telegram par offer aaya\n- Gmail ya Yahoo se official offer letter\n- Salary bahut zyada hai bina experience ke\n- Documents jaise Aadhaar, PAN pehle hi maang rahe\n- Joining se pehle paisa maang rahe (training, laptop, kit ke naam par)\n\n**Verification Kaise Kare:**\n- Company ke official website par jaake careers page check kare\n- LinkedIn par company search kare aur employees dekhe\n- MCA (Ministry of Corporate Affairs) website par company verify kare\n- Google mein company name + scam/fraud search kare\n- Already kaam kar rahe logon se contact kare\n\n**Yaad Rakhe:** Koi bhi legitimate company internship ke liye aapse paisa nahi maangti. Agar paisa maanga jaa raha hai, toh 100 percent scam hai.`
+      : `**How to Identify Fake Internship Offers**\n\n**Initial Checks:**\n- Verify if the company actually exists (Google search)\n- Check if company has an official website\n- Are they asking for registration fee or security deposit (this is a SCAM)\n- Was there a proper interview process or did they directly offer\n\n**Red Flags:**\n- Offer came through WhatsApp or Telegram\n- Official offer letter from Gmail or Yahoo address\n- Salary is unusually high for no experience\n- Asking for documents like Aadhaar, PAN before joining\n- Asking for money before joining (training fee, laptop fee, kit charges)\n\n**How to Verify:**\n- Visit company official website and check careers page\n- Search company on LinkedIn and verify employees\n- Check company on MCA (Ministry of Corporate Affairs) website\n- Google search company name + scam or fraud\n- Try to contact people who already work there\n\n**Remember:** No legitimate company asks for money for internship. If they are asking for money, it is 100 percent a scam.`;
+  }
+
+  // Fake placement detection
+  if (/fake.*placement|placement.*fake|placement.*scam|placement.*fraud|identify.*placement/i.test(lastMessage)) {
+    return isHindi
+      ? `**Fake Placement Offers Kaise Pehchane**\n\n**Common Placement Scams:**\n- Random call aata hai ki aapka selection ho gaya bina apply kiye\n- Off-campus placement ka offer jo college verify nahi kar sakta\n- Consultant ya agency ke through offer jo fee maange\n\n**Red Flags:**\n- Offer letter personal email (gmail/yahoo) se aaya\n- Joining ke liye advance payment maang rahe\n- Background verification ke naam par paisa maang rahe\n- Laptop ya training kit ke liye fees\n- HR ka number personal hai, office number nahi\n- Bahut jaldi joining karne ka pressure\n\n**Verification Steps:**\n- Company ke official website par apply kare, na ki random links se\n- College placement cell se verify karwaye\n- LinkedIn par company employees dhundhe aur unse puche\n- MCA portal par company details verify kare\n- Google mein company + reviews ya company + scam search kare\n\n**Golden Rule:** Legitimate companies placement ke liye candidate se paisa nahi leti. Job milne ke liye agar koi paisa maang raha hai toh wo fraud hai.`
+      : `**How to Identify Fake Placement Offers**\n\n**Common Placement Scams:**\n- Random call saying you are selected without even applying\n- Off-campus placement offer that college cannot verify\n- Offer through consultant or agency that charges fee\n\n**Red Flags:**\n- Offer letter from personal email (gmail/yahoo)\n- Asking advance payment for joining\n- Asking money for background verification\n- Fees for laptop or training kit\n- HR contact is personal number, not office\n- Pressure to join very quickly\n\n**Verification Steps:**\n- Apply through company official website, not random links\n- Get verification from college placement cell\n- Find company employees on LinkedIn and ask them\n- Verify company details on MCA portal\n- Google search company + reviews or company + scam\n\n**Golden Rule:** Legitimate companies never charge candidates for placement. If anyone is asking money for a job, it is fraud.`;
+  }
+
+  // Combined internship and placement query
+  if (/internship.*placement|placement.*internship/i.test(lastMessage) && /fake|fraud|scam|identify|pehchan/i.test(lastMessage)) {
+    return isHindi
+      ? `**Fake Internship aur Placement Offers Se Kaise Bache**\n\n**Sabse Pehle Samjhe:**\n- Koi bhi real company student se paisa nahi maangti\n- WhatsApp par job offer mostly fake hote hai\n- Too good to be true salary = scam\n\n**Document Kabhi Na De:**\n- Aadhaar card joining se pehle\n- PAN card details\n- Bank account details\n- Passport size photo with signature\n\n**Yeh Kare Verify Karne Ke Liye:**\n1. Company website par career section check kare\n2. LinkedIn par company aur recruiter verify kare\n3. MCA website par company registration check kare\n4. Glassdoor par reviews padhe\n5. College placement cell se baat kare\n6. Google mein company + scam search kare\n\n**Agar Fraud Ho Gaya:**\n- Cybercrime portal par report kare: cybercrime.gov.in\n- Helpline: 1930\n- Local police mein complaint kare\n- Bank ko turant inform kare agar payment kiya hai`
+      : `**How to Stay Safe from Fake Internship and Placement Offers**\n\n**Understand First:**\n- No real company asks money from students\n- Job offers on WhatsApp are mostly fake\n- Too good to be true salary means scam\n\n**Never Share These Documents:**\n- Aadhaar card before joining\n- PAN card details\n- Bank account details\n- Passport photo with signature\n\n**Steps to Verify:**\n1. Check career section on company website\n2. Verify company and recruiter on LinkedIn\n3. Check company registration on MCA website\n4. Read reviews on Glassdoor\n5. Talk to your college placement cell\n6. Google search company + scam\n\n**If You Got Scammed:**\n- Report on cybercrime portal: cybercrime.gov.in\n- Helpline: 1930\n- File complaint at local police station\n- Inform your bank immediately if payment was made`;
+  }
+
+  // WhatsApp message verification - Hindi query
+  if (/whatsapp|व्हाट्सएप|message.*fake.*real|fake.*ya.*real|pehchan.*message|संदेश.*असली.*नकली/i.test(lastMessage)) {
+    return isHindi
+      ? `**WhatsApp Message Fake Hai Ya Real - Kaise Pehchane**\n\n**Fake Message Ke Signs:**\n- Forward tag dikhai de (Forwarded / Forwarded many times)\n- Spelling aur grammar mein bahut mistakes\n- Koi unknown number se aaya hai\n- Bahut urgent language use hui hai\n- Paisa ya OTP maang raha hai\n- Koi link click karne ko keh raha hai\n\n**Common Fake Messages:**\n- Government scheme mein paisa milega\n- KYC expire ho raha hai\n- Lottery jeet gaye\n- Parcel aaya hai OTP do\n- Bank account block ho jayega\n\n**AI Generated Message Kaise Pehchane:**\n- Bahut perfect language (real log mistakes karte hai)\n- Generic greeting (Dear Customer instead of your name)\n- Unusual timing par message\n- Profile photo nahi hai ya stock photo hai\n\n**Kya Kare:**\n- Sender ko directly call karke verify kare\n- Link par click mat kare\n- OTP ya personal details share mat kare\n- Suspicious message report kare WhatsApp par`
+      : `**How to Check if WhatsApp Message is Fake or Real**\n\n**Signs of Fake Message:**\n- Shows Forward tag (Forwarded / Forwarded many times)\n- Many spelling and grammar mistakes\n- Came from unknown number\n- Uses very urgent language\n- Asking for money or OTP\n- Asking to click some link\n\n**Common Fake Messages:**\n- Government scheme giving free money\n- KYC is expiring\n- You won lottery\n- Parcel arrived need OTP\n- Bank account will be blocked\n\n**How to Identify AI Generated Messages:**\n- Very perfect language (real people make mistakes)\n- Generic greeting (Dear Customer instead of your name)\n- Message at unusual timing\n- No profile photo or stock photo\n\n**What to Do:**\n- Call the sender directly to verify\n- Do not click on any link\n- Do not share OTP or personal details\n- Report suspicious message on WhatsApp`;
+  }
+
+  // Scam number identification
+  if (/scam.*number|number.*scam|fake.*number|number.*fake|phone.*fraud|call.*scam|kese.*jaane.*number|number.*verify/i.test(lastMessage)) {
+    return isHindi
+      ? `**Scam Phone Number Kaise Pehchane**\n\n**Red Flags:**\n- Random number se call aata hai bank ya company bata kar\n- Caller bahut confident hai aur aapka naam jaanta hai\n- OTP ya PIN maang raha hai\n- Screen share karne ko keh raha hai\n- AnyDesk ya TeamViewer install karne ko keh raha hai\n- Paisa refund karne ki baat kar raha hai\n\n**Verification Ke Tarike:**\n- Truecaller app se number check kare (spam reports dikhenge)\n- Google mein number search kare (scam reports milenge)\n- Company ki official website se number match kare\n- Bank ki passbook ya card pe likhe number par khud call kare\n\n**Yaad Rakhe:**\n- Bank kabhi call karke OTP ya PIN nahi maangta\n- Government officials phone par Aadhaar details nahi maangte\n- Refund ke liye kabhi OTP ki zaroorat nahi hoti\n- Screen share karne se account hack ho sakta hai\n\n**Agar Suspicious Call Aaye:**\n- Phone rakh de\n- Khud official number par call kare\n- Koi bhi information share mat kare`
+      : `**How to Identify Scam Phone Numbers**\n\n**Red Flags:**\n- Random number calls claiming to be bank or company\n- Caller is very confident and knows your name\n- Asking for OTP or PIN\n- Asking to screen share\n- Asking to install AnyDesk or TeamViewer\n- Talking about refund or cashback\n\n**Verification Methods:**\n- Check number on Truecaller app (will show spam reports)\n- Search number on Google (scam reports will appear)\n- Match number with company official website\n- Call yourself on number written on bank passbook or card\n\n**Remember:**\n- Banks never call asking for OTP or PIN\n- Government officials do not ask Aadhaar details on phone\n- Refund never needs OTP from your side\n- Screen sharing can lead to account hack\n\n**If You Get Suspicious Call:**\n- Hang up immediately\n- Call official number yourself\n- Do not share any information`;
   }
 
   // Phishing-related queries

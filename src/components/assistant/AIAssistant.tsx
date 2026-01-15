@@ -28,9 +28,9 @@ interface AnalysisResult {
 }
 
 const quickPrompts = [
-  { icon: Shield, text: 'Is this link safe?', textHi: 'क्या यह लिंक सुरक्षित है?', query: 'How can I check if a link is safe before clicking?' },
-  { icon: AlertTriangle, text: 'Suspicious message', textHi: 'संदिग्ध संदेश', query: 'I received a suspicious message asking for my bank details. What should I do?' },
-  { icon: Lock, text: 'Strong passwords', textHi: 'मजबूत पासवर्ड', query: 'How do I create a strong password that is hard to hack?' },
+  { icon: Shield, text: 'Fake internship check', textHi: 'नकली इंटर्नशिप पहचान', query: 'How to identify fake internship offers?' },
+  { icon: AlertTriangle, text: 'WhatsApp message verify', textHi: 'WhatsApp संदेश जांच', query: 'Kese pehchane agar koi message fake he ya real whatsapp pe?' },
+  { icon: Lock, text: 'Scam number check', textHi: 'स्कैम नंबर जांच', query: 'Koi number scam he ya real ye kese jaane?' },
   { icon: Smartphone, text: 'UPI fraud', textHi: 'UPI धोखाधड़ी', query: 'How can I protect myself from UPI payment fraud in India?' },
 ];
 

@@ -1,63 +1,65 @@
-# NormiCyte 🛡️
-### let's normalise cyber.
+# NormiCyte 
+### Let's normalise cyber.
 
 > **🔗 Live Demo: [normicyte.web.app](https://normicyte.web.app)**
 
 ---
 
-## 🎯 what's this about?
+## What's this about?
 
-so here's the thing - cybersecurity feels intimidating to most people. like, who has time to learn about phishing when you're drowning in assignments? but then your friend gets scammed on OLX, your mom almost shared her OTP with a fake "bank" caller, and suddenly it hits different.
+So here's the thing, cybersecurity feels intimidating to most people. Like, who has time to learn about phishing when you're drowning in assignments? but then your friend gets scammed on OLX, your mom almost shared her OTP with a fake "bank" caller and suddenly it hits different.
 
-**NormiCyte** is our attempt to make cyber awareness... normal. not scary, not boring - just something you pick up while having fun. think duolingo but for not getting scammed.
+**NormiCyte** is our attempt to make cyber awareness... normal. Not scary, not boring, just something you pick up when you have nothing to do. Think the early-duolingo but for not getting scammed.
 
-we built this for a campus hackathon but honestly? this stuff affects everyone - students, parents, that uncle who forwards everything on WhatsApp.
+We built this for a campus hackathon but honestly? this stuff affects everyone: students, parents, that uncle who forwards everything on WhatsApp.
 
 ---
 
-## 💡 the problem we're solving
+## The problem we're solving
 
-campus life = online life. we're constantly:
+Campus life = online life. 
+
+We're constantly:
 - paying fees through UPI
 - logging into portals
 - clicking links in "placement" emails
 - sharing stuff on social media
 
-and scammers LOVE targeting students. fake internship offers, UPI collect request scams, phishing emails that look legit... you name it.
+and scammers LOVE targeting students. Fake internship offers, UPI collect request scams, phishing emails that look legit... you just name it.
 
-**but nobody teaches us this stuff.** cyber hygiene should be as normal as washing hands, right?
-
----
-
-## ✨ what can you do on NormiCyte?
-
-### 🕵️ Digital Detective
-solve real-world cyber cases. analyze suspicious emails, trace fake profiles, figure out how scams work. it's like being a detective but for the internet.
-
-### 🎣 Phishing Simulator  
-practice spotting fake emails and messages. get it wrong? no worries - better to learn here than lose money irl. you earn XP for every correct catch!
-
-### 🎮 Missions
-bite-sized lessons on UPI safety, password security, social media privacy, etc. complete quizzes, earn XP, level up your cyber skills.
-
-### 📢 Campaigns
-join community challenges like "UPI Safety Week" or "Phishing Awareness Month". learn together, compete on leaderboards.
-
-### 🤖 AI Mentor (coming soon)
-got a suspicious message? not sure if something's a scam? ask our AI buddy - it's like having a cybersecurity friend on speed dial.
-
-### 🌐 Hindi + English
-because cyber safety shouldn't need you to know english. toggle between languages anytime.
+**But nobody teaches us this stuff.** cyber hygiene should be as normal as washing hands, right!?
 
 ---
 
-## 🏗️ project structure
+## What can you do on NormiCyte?
+
+### Digital Detective
+Solve real-world cyber cases. Analyse suspicious emails, trace fake profiles, figure out how scams work. It's like being a detective but for the internet.
+
+### Phishing Simulator  
+Practice spotting fake emails and messages. Get it wrong? No worries, better to learn here than lose money irl. You earn XP for every correct catch!
+
+### Missions
+Bite-sized lessons on UPI safety, password security, social media privacy, etc. complete quizzes, earn XP, level up your cyber skills.
+
+### Campaigns
+Join community challenges like "UPI Safety Week" or "Phishing Awareness Month". Learn together and compete on leaderboards.
+
+### AI Mentor (coming soon)
+Got a suspicious message? Not sure if something's a scam? Ask our AI buddy. 
+
+### Hindi + English
+Because cyber safety shouldn't need you to know english. Toggle between languages anytime.
+
+---
+
+## Project structure
 
 ```
 normicyte/
 ├── src/
 │   ├── components/
-│   │   ├── assistant/      # AI chat (coming soon)
+│   │   ├── assistant/      # AI chat
 │   │   ├── auth/           # login/signup stuff
 │   │   ├── dashboard/      # home screen widgets
 │   │   ├── detective/      # case investigation game
@@ -87,9 +89,7 @@ normicyte/
 
 ---
 
-## 🛠️ tech stack
-
-nothing fancy, just stuff that works:
+## Tech stack
 
 | what | why |
 |------|-----|
@@ -102,14 +102,14 @@ nothing fancy, just stuff that works:
 
 ---
 
-## 🚀 wanna run it locally?
+## Wanna run it locally?
 
-### you'll need:
+### You'll need:
 - Node.js 18+ 
 - npm
-- a Firebase project (free tier works)
+- A Firebase project (free tier works)
 
-### setup:
+### Setup:
 
 ```bash
 # clone it
@@ -128,15 +128,15 @@ npm run dev
 
 boom, open `http://localhost:8080` and you're in.
 
-### seed the database (optional):
+### Seed the database (optional):
 ```bash
 node scripts/seedMissionsCampaigns.cjs
 ```
-this adds sample missions, campaigns, and security tips.
+This adds sample missions, campaigns, and security tips.
 
 ---
 
-## 📦 scripts
+## Scripts
 
 | command | what it does |
 |---------|--------------|
@@ -147,13 +147,13 @@ this adds sample missions, campaigns, and security tips.
 
 ---
 
-## 🎪 deployment
+## Deployment
 
-we're live on Firebase Hosting:
+We're live on Firebase Hosting:
 
 **🔗 [normicyte.web.app](https://normicyte.web.app)**
 
-to deploy your own:
+To deploy your own:
 ```bash
 npm run build
 firebase deploy --only hosting
@@ -161,25 +161,25 @@ firebase deploy --only hosting
 
 ---
 
-## 🤝 team
+## Team
 
-built with ☕ and sleep deprivation for [Your Hackathon Name]
-
----
-
-## 📞 for actual emergencies
-
-if you or someone you know has been scammed:
-
-**🚨 National Cyber Crime Helpline: 1930**  
-**🌐 Report online: [cybercrime.gov.in](https://cybercrime.gov.in)**
+Built with ☕ and sleep deprivation for techsprint hackathon GDG SDSF by Team NextNorms.
 
 ---
 
-## 📄 license
+## For actual emergencies
+
+If you or someone you know has been scammed:
+
+**National Cyber Crime Helpline: 1930**  
+**Report online: [cybercrime.gov.in](https://cybercrime.gov.in)**
+
+---
+
+## License
 
 MIT - do whatever you want with it, just don't use it to scam people (obviously)
 
 ---
 
-*"because getting scammed shouldn't be a rite of passage"* ✌️
+**"Because getting scammed shouldn't be a rite of passage"** Peace out. 
