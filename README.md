@@ -1,5 +1,5 @@
 # NormiCyte 
-### Let's normalise cyber.
+### Let's normalise cybersecurity.
 
 > **🔗 Live Demo: [normicyte.web.app](https://normicyte.web.app)**
 
