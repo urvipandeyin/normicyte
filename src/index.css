@@ -1,0 +1,354 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* NormiCyte Design System - Cyberpunk Cyber Command Center */
+
+@layer base {
+  :root {
+    /* Core backgrounds */
+    --background: 222 47% 4%;
+    --foreground: 200 100% 97%;
+
+    /* Card & surface colors with glassmorphism support */
+    --card: 222 47% 8%;
+    --card-foreground: 200 100% 97%;
+    --card-glow: 185 100% 50%;
+
+    --popover: 222 47% 10%;
+    --popover-foreground: 200 100% 97%;
+
+    /* Primary: Neon Cyan */
+    --primary: 185 100% 50%;
+    --primary-foreground: 222 47% 4%;
+    --primary-glow: 185 100% 60%;
+
+    /* Secondary: Electric Blue */
+    --secondary: 220 100% 60%;
+    --secondary-foreground: 200 100% 97%;
+
+    /* Muted for subtle elements */
+    --muted: 222 30% 15%;
+    --muted-foreground: 220 20% 55%;
+
+    /* Accent: Violet */
+    --accent: 270 100% 65%;
+    --accent-foreground: 200 100% 97%;
+
+    /* Status colors */
+    --destructive: 0 85% 55%;
+    --destructive-foreground: 200 100% 97%;
+    
+    --success: 150 100% 45%;
+    --success-foreground: 222 47% 4%;
+    
+    --warning: 35 100% 50%;
+    --warning-foreground: 222 47% 4%;
+
+    /* Borders & inputs */
+    --border: 222 30% 18%;
+    --input: 222 30% 12%;
+    --ring: 185 100% 50%;
+
+    --radius: 0.75rem;
+
+    /* Custom NormiCyte tokens */
+    --neon-cyan: 185 100% 50%;
+    --neon-blue: 220 100% 60%;
+    --neon-violet: 270 100% 65%;
+    --neon-green: 150 100% 45%;
+    --neon-red: 0 85% 55%;
+    --neon-orange: 35 100% 50%;
+
+    /* Glassmorphism */
+    --glass-bg: 222 47% 8% / 0.7;
+    --glass-border: 185 100% 50% / 0.2;
+    --glass-blur: 20px;
+
+    /* Grid pattern */
+    --grid-color: 185 100% 50% / 0.03;
+    --scanline-color: 185 100% 50% / 0.02;
+
+    /* Sidebar */
+    --sidebar-background: 222 47% 6%;
+    --sidebar-foreground: 200 100% 90%;
+    --sidebar-primary: 185 100% 50%;
+    --sidebar-primary-foreground: 222 47% 4%;
+    --sidebar-accent: 222 30% 15%;
+    --sidebar-accent-foreground: 200 100% 97%;
+    --sidebar-border: 222 30% 18%;
+    --sidebar-ring: 185 100% 50%;
+  }
+
+  .dark {
+    /* Same as root - dark theme is default */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Monospace for code/data */
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer components {
+  /* Glassmorphism card */
+  .glass-card {
+    @apply relative rounded-xl border backdrop-blur-xl;
+    background: hsl(var(--glass-bg));
+    border-color: hsl(var(--glass-border));
+  }
+
+  .glass-card-glow {
+    @apply glass-card;
+    box-shadow: 
+      0 0 20px hsl(var(--primary) / 0.1),
+      inset 0 1px 0 hsl(var(--primary) / 0.1);
+  }
+
+  /* Neon text effects */
+  .text-glow-cyan {
+    text-shadow: 0 0 10px hsl(var(--neon-cyan) / 0.5),
+                 0 0 20px hsl(var(--neon-cyan) / 0.3),
+                 0 0 40px hsl(var(--neon-cyan) / 0.2);
+  }
+
+  .text-glow-blue {
+    text-shadow: 0 0 10px hsl(var(--neon-blue) / 0.5),
+                 0 0 20px hsl(var(--neon-blue) / 0.3);
+  }
+
+  .text-glow-violet {
+    text-shadow: 0 0 10px hsl(var(--neon-violet) / 0.5),
+                 0 0 20px hsl(var(--neon-violet) / 0.3);
+  }
+
+  /* Neon border glow */
+  .border-glow {
+    box-shadow: 0 0 15px hsl(var(--primary) / 0.3),
+                inset 0 0 15px hsl(var(--primary) / 0.1);
+  }
+
+  .border-glow-blue {
+    box-shadow: 0 0 15px hsl(var(--neon-blue) / 0.3),
+                inset 0 0 15px hsl(var(--neon-blue) / 0.1);
+  }
+
+  /* Animated grid background */
+  .cyber-grid {
+    background-image: 
+      linear-gradient(hsl(var(--grid-color)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--grid-color)) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: grid-move 20s linear infinite;
+  }
+
+  /* Scanline overlay */
+  .scanlines::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--scanline-color)) 2px,
+      hsl(var(--scanline-color)) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Status badges */
+  .badge-secure {
+    @apply bg-success/20 text-success border border-success/30;
+  }
+
+  .badge-warning {
+    @apply bg-warning/20 text-warning border border-warning/30;
+  }
+
+  .badge-danger {
+    @apply bg-destructive/20 text-destructive border border-destructive/30;
+  }
+
+  .badge-info {
+    @apply bg-secondary/20 text-secondary border border-secondary/30;
+  }
+
+  /* Pulse animation for alerts */
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* HUD-style corner accents */
+  .hud-corners {
+    @apply relative;
+  }
+
+  .hud-corners::before,
+  .hud-corners::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: hsl(var(--primary));
+  }
+
+  .hud-corners::before {
+    top: 0;
+    left: 0;
+    border-left: 2px solid;
+    border-top: 2px solid;
+  }
+
+  .hud-corners::after {
+    bottom: 0;
+    right: 0;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+  }
+
+  /* Cyber button styles */
+  .cyber-button {
+    @apply relative overflow-hidden font-semibold tracking-wide uppercase;
+    transition: all 0.3s ease;
+  }
+
+  .cyber-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .cyber-button:hover::before {
+    transform: translateX(100%);
+  }
+}
+
+@layer utilities {
+  /* Gradient backgrounds */
+  .gradient-cyber {
+    background: linear-gradient(135deg, 
+      hsl(var(--neon-cyan) / 0.1) 0%, 
+      hsl(var(--neon-blue) / 0.1) 50%,
+      hsl(var(--neon-violet) / 0.1) 100%
+    );
+  }
+
+  .gradient-cyber-solid {
+    background: linear-gradient(135deg, 
+      hsl(var(--neon-cyan)) 0%, 
+      hsl(var(--neon-blue)) 100%
+    );
+  }
+
+  .gradient-danger {
+    background: linear-gradient(135deg, 
+      hsl(var(--neon-red)) 0%, 
+      hsl(var(--neon-orange)) 100%
+    );
+  }
+
+  /* Text gradients */
+  .text-gradient-cyber {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, 
+      hsl(var(--neon-cyan)) 0%, 
+      hsl(var(--neon-blue)) 50%,
+      hsl(var(--neon-violet)) 100%
+    );
+  }
+}
+
+/* Keyframe animations */
+@keyframes grid-move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.4);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes glitch {
+  0%, 100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.7);
+}
