@@ -27,7 +27,7 @@ We're constantly:
 
 and scammers LOVE targeting students. Fake internship offers, UPI collect request scams, phishing emails that look legit... you just name it.
 
-**But nobody teaches us this stuff.** cyber hygiene should be as normal as washing hands, right!?
+But nobody teaches us this stuff. Cyber hygiene should be as normal as washing hands, right!?
 
 ---
 
