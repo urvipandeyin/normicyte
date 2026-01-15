@@ -50,6 +50,8 @@ Got a suspicious message? Not sure if something's a scam? Ask our AI buddy.
 
 **heads up:** this isn't a full AI model yet. we've manually coded responses for common questions that students and parents usually ask. it's like a smart FAQ that feels like chatting.
 
+**why no real AI?** honestly, API costs for Gemini/GPT are kinda expensive for broke college students. but it's on the roadmap once we figure out funding or find a cheaper solution.
+
 **what it can answer right now:**
 - "how to identify fake internship offers?"
 - "linkedin par fake internship kaise pehchane?"
