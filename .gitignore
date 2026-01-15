@@ -28,3 +28,4 @@ serviceAccountKey.json
 **/serviceAccountKey.json
 firebase-debug.log
 .firebase/
+.env
